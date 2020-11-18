@@ -1,0 +1,42 @@
+#:kivy 1.7.1
+#:import Factory kivy.factory.Factory
+
+<Screen>:
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        Rectangle:
+            size: self.size
+
+<Screen1>:
+
+    BoxLayout:
+
+        orientation: 'vertical'
+
+        BoxLayout:
+
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.parent.height * 0.1
+            padding: '5dp'
+
+            canvas:
+                Color:
+                    rgb: 255/255, 122/255, 107/255
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                text: '<'
+                size_hint_x: None
+                width: self.height
+                on_release: app.go_notes()
+
+            Button:
+                text: 'X'
+                size_hint_x: None
+                width: self.height
+                on_release: app.del_note(root.note_index)
+
