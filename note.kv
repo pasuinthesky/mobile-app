@@ -24,22 +24,66 @@
 
             canvas:
                 Color:
+                    rgb: 255/255, 255/255, 255/255
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        BoxLayout:
+
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.parent.height * 0.1
+            padding: '5dp'
+            pos_hint: {'top':0.5}
+
+            canvas:
+                Color:
                     rgb: 255/255, 122/255, 107/255
                 Rectangle:
                     pos: self.pos
                     size: self.size
 
+            #Button:
+                #text: '<'
+                #size_hint_x: None
+                #width: self.height
+                #on_release: app.go_notes()
+
+            #Button:
+                #text: 'X'
+                #size_hint_x: None
+                #width: self.height
+                #on_release: app.del_note(root.note_index)
+            
             Button:
-                text: '<'
+                text: 'All'
                 size_hint_x: None
-                width: self.height
-                on_release: app.go_notes()
+                background_color: 255/255, 122/255, 107/255, 0
+                width: self.height*0.8
+                #width: self.height
+        
+            Button:
+                text: 'New'
+                size_hint_x: None
+                background_color: 255/255, 122/255, 107/255, 0
+                width: self.height*1.8
+                #width: self.height
 
             Button:
-                text: 'X'
+                text: 'Top Rating'
                 size_hint_x: None
-                width: self.height
-                on_release: app.del_note(root.note_index)
+                background_color: 255/255, 122/255, 107/255, 0
+                #width: self.height*0.8
+                #width: self.height
+
+            Button:
+                text: 'Popular'
+                size_hint_x: None
+                background_color: 255/255, 122/255, 107/255, 0
+                #width: self.height*0.8
+                #width: self.height
+            
 
         BoxLayout:
             orientation: 'vertical'
@@ -53,6 +97,8 @@
                     size_hint_y: None
                     cols: 2
                     height: self.minimum_height
+        
+    
 
         BoxLayout:
 
@@ -80,3 +126,5 @@
                 size_hint_x: None
                 width: self.height
                 on_release: app.del_note(root.note_index)
+
+        
