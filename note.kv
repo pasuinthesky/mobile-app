@@ -42,17 +42,21 @@
                 on_release: app.del_note(root.note_index)
 
         BoxLayout:
-            orientation: 'vertical'
-            padding: 5, 5
-            #row_default_height: '4dp'
-            #row_force_default: True
-            #spacing: 5, 5
-            ScrollView:
-                GridLayout:
-                    id: wall
-                    size_hint_y: None
-                    cols: 2
-                    height: self.minimum_height
+            
+            BoxLayout: 
+
+                orientation: 'vertical'
+                padding: 5, 5
+                #row_default_height: '4dp'
+                #row_force_default: True
+                #spacing: 5, 5
+                
+                ScrollView:
+                    GridLayout:
+                        id: wall
+                        size_hint_y: None
+                        cols: 2
+                        height: self.minimum_height
 
         BoxLayout:
 
@@ -70,13 +74,25 @@
                     size: self.size
 
             Button:
-                text: '<'
+                text: 'home'
                 size_hint_x: None
                 width: self.height
                 on_release: app.go_notes()
 
             Button:
-                text: 'X'
+                text: 'search'
+                size_hint_x: None
+                width: self.height
+                on_release: app.del_note(root.note_index)
+
+            Button:
+                text: 'upload'
+                size_hint_x: None
+                width: self.height
+                on_release: app.del_note(root.note_index)
+
+            Button:
+                text: 'user'
                 size_hint_x: None
                 width: self.height
                 on_release: app.del_note(root.note_index)
