@@ -31,7 +31,7 @@ class Screen1(Screen):
         def update_height(img, *args):
             img.height = img.width / img.image_ratio
 
-        for i in range(100):
+        for i in range(10):
             image = AsyncImage(source='https://bit.ly/39qjhWR',
                                size_hint=(1, None),
                                keep_ratio=True,
