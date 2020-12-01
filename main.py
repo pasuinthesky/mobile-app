@@ -19,10 +19,25 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
+from kivy.uix.image import AsyncImage
 
 
 class Screen1(Screen):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(Screen1, self).__init__(*args, **kwargs)
+        self.callback()
+
+    def callback(self):
+        def update_height(img, *args):
+            img.height = img.width / img.image_ratio
+
+        for i in range(100):
+            image = AsyncImage(source='https://bit.ly/39qjhWR',
+                               size_hint=(1, None),
+                               keep_ratio=True,
+                               allow_stretch=True)
+            image.bind(width=update_height, image_ratio=update_height)
+            self.ids.wall.add_widget(image)
 
 
 class NoteApp(App):
