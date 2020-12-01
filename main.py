@@ -31,11 +31,13 @@ class Screen1(Screen):
         def update_height(img, *args):
             img.height = img.width / img.image_ratio
 
-        for i in range(100):
-            image = AsyncImage(source='https://bit.ly/39qjhWR',
+        for i in range(4):
+            image = AsyncImage(source='16x9.webp',
                                size_hint=(1, None),
                                keep_ratio=True,
                                allow_stretch=True)
+
+            # Whenever the value of width or image_ratio changes, call the update_height funciton.
             image.bind(width=update_height, image_ratio=update_height)
             self.ids.wall.add_widget(image)
 
