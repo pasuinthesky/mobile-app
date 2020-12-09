@@ -107,8 +107,8 @@
             orientation: 'horizontal'
             size_hint_y: None
             height: self.parent.height * 0.1
-            padding: '5dp'
-            spacing: '50dp'
+            padding: 0.04 * self.width
+            spacing: 0.04 * self.width
         
 
             canvas:
@@ -121,29 +121,29 @@
             Button:
                 text: 'home'
                 size_hint_x: None
-                pos_hint_x: 100
-                width: self.height
+                #pos_hint_x: 0.04 * self.parent.width
+                width: 0.2 * self.parent.width
                 on_release: app.go_notes()
 
             Button:
                 text: 'search'
                 size_hint_x: None
-                pos_hint_x: 200
-                width: self.height
+                #pos_hint_x: 0.28 * self.parent.width
+                width: 0.2 * self.parent.width
                 on_release: app.del_note(root.note_index)
 
             Button:
                 text: 'upload'
                 size_hint_x: None
-                pos_hint_x: 300
-                width: self.height
+                #pos_hint_x: 0.52 * self.parent.width
+                width: 0.2 * self.parent.width
                 on_release: app.del_note(root.note_index)
 
             Button:
                 text: 'user'
                 size_hint_x: None
-                pos_hint_x: 400
-                width: self.height
+                #pos_hint_x: 0.76 * self.parent.width
+                width: 0.2 * self.parent.width
                 on_release: app.del_note(root.note_index)
 
         

@@ -23,8 +23,20 @@ from kivy.uix.image import Image
 from kivy.uix.image import AsyncImage
 from kivy.config import Config
 
-Config.set('graphics', 'width', '450')
-Config.set('graphics', 'height', '800')
+import sys
+import dropbox
+from dropbox.files import WriteMode
+from dropbox.exceptions import ApiError, AuthError
+
+# We don't want to use fixed value for screen size.
+# Config.set('graphics', 'width', '450')
+# Config.set('graphics', 'height', '800')
+
+BACKUPPATH = '/mobile-app'
+LOCALPATH = 'tmp'
+NUM_OF_IMAGE = 4
+TOKEN = 'sl.AnB70GxfiRl-W0enzAbcvmUW4NNpIa8ophPPncZhjdqoU77bThAO6drUCEE8TOXR97Hf1zH_KMi1MXhxBKPb3Ye5Pjbd8JLRcuGpwfTqUOYjVG0EZqOSC75Wok-pObaNlIZL6kM'
+
 
 class Screen1(Screen):
     def __init__(self, *args, **kwargs):
@@ -35,8 +47,8 @@ class Screen1(Screen):
         def update_height(img, *args):
             img.height = img.width / img.image_ratio
 
-        for i in range(10):
-            image = AsyncImage(source='https://bit.ly/39qjhWR',
+        for i in range(1, NUM_OF_IMAGE + 1):
+            image = AsyncImage(source=LOCALPATH + '/' + str(i) + '.jpeg',
                                size_hint=(1, None),
                                keep_ratio=True,
                                allow_stretch=True)
@@ -56,5 +68,38 @@ class NoteApp(App):
         return root
 
 
+def dropbox_login():
+    # Check for an access token
+    if (len(TOKEN) == 0):
+        sys.exit("ERROR: Looks like you didn't add your access token. "
+                 "Open up backup-and-restore-example.py in a text editor and "
+                 "paste in your token in line 14.")
+
+    # Create an instance of a Dropbox class, which can make requests to the API.
+    print("Creating a Dropbox object...")
+    with dropbox.Dropbox(TOKEN) as dbx:
+
+        # Check that the access token is valid
+        try:
+            dbx.users_get_current_account()
+        except AuthError:
+            sys.exit("ERROR: Invalid access token; try re-generating an "
+                     "access token from the app console on the web.")
+
+    return dbx
+
+
+def dropbox_download_images(dbx, num_of_images):
+    for i in range(1, num_of_images + 1):
+        LOCALFILE = LOCALPATH + "/" + str(i) + ".jpeg"
+        BACKUPFILE = BACKUPPATH + "/" + str(i) + ".jpeg"
+        print("Downloading current " + BACKUPFILE +
+              " from Dropbox, overwriting " + LOCALFILE + "...")
+        dbx.files_download_to_file(LOCALFILE, BACKUPFILE, None)
+
+
 if __name__ == '__main__':
+    dbx = dropbox_login()
+    dropbox_download_images(dbx, NUM_OF_IMAGE)
+
     NoteApp().run()
