@@ -16,11 +16,15 @@ from kivy.properties import ListProperty, StringProperty, \
         NumericProperty, BooleanProperty, AliasProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.image import AsyncImage
+from kivy.config import Config
 
+Config.set('graphics', 'width', '450')
+Config.set('graphics', 'height', '800')
 
 class Screen1(Screen):
     def __init__(self, *args, **kwargs):
