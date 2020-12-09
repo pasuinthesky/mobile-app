@@ -45,12 +45,12 @@ class Screen1(Screen):
 
     def callback(self):
         def update_height(img, *args):
-            img.height = img.width / img.image_ratio
+            img.height = img.width
 
         for i in range(1, NUM_OF_IMAGE + 1):
             image = AsyncImage(source=LOCALPATH + '/' + str(i) + '.jpeg',
                                size_hint=(1, None),
-                               keep_ratio=True,
+                               keep_ratio=False,
                                allow_stretch=True)
 
             # Whenever the value of width or image_ratio changes, call the update_height funciton.
