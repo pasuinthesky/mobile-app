@@ -28,14 +28,17 @@ import dropbox
 from dropbox.files import WriteMode
 from dropbox.exceptions import ApiError, AuthError
 
+import pyodbc
+
 # We don't want to use fixed value for screen size.
 # Config.set('graphics', 'width', '450')
 # Config.set('graphics', 'height', '800')
 
 BACKUPPATH = '/mobile-app'
 LOCALPATH = 'tmp'
-NUM_OF_IMAGE = 4
-TOKEN = 'sl.AnB70GxfiRl-W0enzAbcvmUW4NNpIa8ophPPncZhjdqoU77bThAO6drUCEE8TOXR97Hf1zH_KMi1MXhxBKPb3Ye5Pjbd8JLRcuGpwfTqUOYjVG0EZqOSC75Wok-pObaNlIZL6kM'
+NUM_OF_IMAGE = 0
+NUM_RECIPE_IN_SCREEN = 10
+TOKEN = 'sl.AnrteHEUq8ZDhXhdOIzCk1HSkHJ1gCfHQtrBJKoHIRAkI_8mPik5Nv2vZOt5RT7VUzAO6oHDJgHiGc5X1iHC515DihOom3FUW9dttVnK3ma4LVpxDa1rTD-3VxTgkKS4ZQDN9gg'
 
 
 class Screen1(Screen):
@@ -47,8 +50,8 @@ class Screen1(Screen):
         def update_height(img, *args):
             img.height = img.width
 
-        for i in range(1, NUM_OF_IMAGE + 1):
-            image = AsyncImage(source=LOCALPATH + '/' + str(i) + '.jpeg',
+        for i in range(NUM_OF_IMAGE):
+            image = AsyncImage(source=LOCALPATH + '/' + recipes[i][2],
                                size_hint=(1, None),
                                keep_ratio=False,
                                allow_stretch=True)
@@ -90,15 +93,31 @@ def dropbox_login():
 
 
 def dropbox_download_images(dbx, num_of_images):
-    for i in range(1, num_of_images + 1):
-        LOCALFILE = LOCALPATH + "/" + str(i) + ".jpeg"
-        BACKUPFILE = BACKUPPATH + "/" + str(i) + ".jpeg"
+    for i in range(num_of_images):
+        LOCALFILE = LOCALPATH + "/" + recipes[i][2]
+        BACKUPFILE = BACKUPPATH + "/" + recipes[i][2]
         print("Downloading current " + BACKUPFILE +
               " from Dropbox, overwriting " + LOCALFILE + "...")
         dbx.files_download_to_file(LOCALFILE, BACKUPFILE, None)
 
 
 if __name__ == '__main__':
+    server = 'tcp:mobile-app-db-srv.database.windows.net,1433'
+    database = 'mobile-app-db'
+    username = 'mobile-app-db-admin'
+    password = '2020nov10.'
+    connection = pyodbc.connect(
+        'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server +
+        ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
+    cursor = connection.cursor()
+
+    #Sample select query
+    cursor.execute("SELECT * FROM Recipe")
+    recipes = cursor.fetchmany(NUM_RECIPE_IN_SCREEN)
+    NUM_OF_IMAGE = len(recipes)
+    for r in recipes:
+        print(r[0], r[1], r[2])
+
     dbx = dropbox_login()
     dropbox_download_images(dbx, NUM_OF_IMAGE)
 
